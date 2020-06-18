@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "concurrently": "^5.2.0",
+    "concurrently": "github:fivetanley/concurrently#fix-handlers-keeping-process-open",
     "eslint": "5.13.0",
     "eslint-config-standard": "12.0.0",
     "eslint-plugin-import": "^2.16.0",
