@@ -22,6 +22,7 @@ const commands = packages.map(packagePath => {
 
 function exit(exitCode) {
   process.nextTick(() => {
+    whyIsNodeRunning();
     setTimeout(function() {
       process.abort(exitCode)
     }, process.env.CI ? 5000: 1000)
@@ -29,13 +30,14 @@ function exit(exitCode) {
   })
 }
 
+let exitCode = 1;
+
 async function run() {
   const SIGINT_HANDLER = () => {
     console.log('Received ctrl+c. Stopping scripts/test-all.js');
     process.stdout.write('\n');
     exit(1);
   }
-  let exitCode = 0;
   try {
     process.once('SIGINT', SIGINT_HANDLER);
     await concurrently(commands, {
@@ -43,19 +45,18 @@ async function run() {
       killOthers: ['failure']
     })
     console.log('scripts/test-all: done running concurrently')
-    whyIsNodeRunning()
+    exitCode = 0;
   } catch (err) {
     console.log('scripts/test-all: catch')
     console.log('Error running tests: ', err);
     exitCode = 1;
-    whyIsNodeRunning()
   } finally {
     console.log('scripts/test-all: finally')
     process.removeListener('SIGINT', SIGINT_HANDLER);
-    whyIsNodeRunning()
-    exit(exitCode)
   }
 }
 
-run()
+run().finally(() => {
+  exit(exitCode)
+})
 
