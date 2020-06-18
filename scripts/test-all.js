@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-const whyIsNodeRunning = require('why-is-node-running')
+const log = require('why-is-node-running');
+const utils = require('util')
 const glob = require('glob')
 const concurrently = require('concurrently')
 const path = require('path')
@@ -20,14 +21,11 @@ const commands = packages.map(packagePath => {
   }
 });
 
-function exit(exitCode) {
-  process.nextTick(() => {
-    whyIsNodeRunning();
-    setTimeout(function() {
-      process.abort(exitCode)
-    }, process.env.CI ? 5000: 1000)
-    process.exit(exitCode);
-  })
+async function exit(exitCode) {
+  process.exitCode = exitCode;
+  const write = utils.promisify(process.stdout.write.bind(process.stdout))
+  await write('\n');
+  log();
 }
 
 let exitCode = 1;

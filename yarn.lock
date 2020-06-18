@@ -3026,9 +3026,9 @@ concat-stream@^2.0.0:
     readable-stream "^3.0.2"
     typedarray "^0.0.6"
 
-"concurrently@github:fivetanley/concurrently#fix-handlers-keeping-process-open":
+"concurrently@github:fivetanley/concurrently#065e6a3":
   version "5.2.0"
-  resolved "https://codeload.github.com/fivetanley/concurrently/tar.gz/2f24a0079dd269ee0d325e8f8278f0810b6b27a0"
+  resolved "https://codeload.github.com/fivetanley/concurrently/tar.gz/065e6a337eeb9597dc7e61e5b141f8ce401a9afc"
   dependencies:
     chalk "^4.0.0"
     date-fns "^2.0.1"
